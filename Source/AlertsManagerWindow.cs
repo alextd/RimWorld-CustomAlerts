@@ -53,6 +53,10 @@ namespace Custom_Alerts
 			Widgets.Label(titleRect, "TD.CustomAlerts".Translate());
 			Text.Font = GameFont.Small;
 
+			//Open Library
+			Rect libraryRect = inRect.LeftHalf().BottomPartPixels(Text.LineHeight);
+			SearchStorage.ButtonOpenLibrary(libraryRect);
+
 			//Check off
 			Rect enableRect = inRect.RightHalf().BottomPartPixels(Text.LineHeight);
 			Widgets.CheckboxLabeled(enableRect, "TD.EnableAlerts".Translate(), ref Alert_QuerySearch.enableAll);
@@ -60,8 +64,8 @@ namespace Custom_Alerts
 
 
 			//Scrolling!
-			inRect.yMin = titleRect.yMax;
-			inRect.yMax = enableRect.yMin;
+			inRect.yMin = titleRect.yMax + Listing.DefaultGap;
+			inRect.yMax = enableRect.yMin - Listing.DefaultGap;
 
 			Listing_StandardIndent listing = new();
 			Rect viewRect = new Rect(0f, 0f, inRect.width - 16f, scrollViewHeight);
@@ -116,7 +120,7 @@ namespace Custom_Alerts
 
 			Find.WindowStack.Add(editor);
 			editor.windowRect.x = Window.StandardMargin;
-			editor.windowRect.y = MainButtonWorker_ToggleAlertsWindow.window.windowRect.yMin / 2;
+			editor.windowRect.y = MainButtonWorker_ToggleAlertsWindow.window.windowRect.yMin / 3;
 			editor.windowRect.yMax = MainButtonWorker_ToggleAlertsWindow.window.windowRect.yMin;
 		}
 	}
