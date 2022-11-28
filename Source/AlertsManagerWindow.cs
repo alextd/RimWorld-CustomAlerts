@@ -20,8 +20,8 @@ namespace Custom_Alerts
 		public override void SetInitialSizeAndPosition()
 		{
 			base.SetInitialSizeAndPosition();
-			windowRect.x = 0;
-			windowRect.y = UI.screenHeight - MainButtonDef.ButtonHeight - this.windowRect.height;
+			windowRect.x = Window.StandardMargin;
+			windowRect.y = UI.screenHeight - MainButtonDef.ButtonHeight - this.windowRect.height - Window.StandardMargin;
 		}
 
 		public AlertsManagerWindow()
@@ -115,6 +115,7 @@ namespace Custom_Alerts
 			});
 
 			Find.WindowStack.Add(editor);
+			editor.windowRect.x = Window.StandardMargin;
 			editor.windowRect.y = MainButtonWorker_ToggleAlertsWindow.window.windowRect.yMin / 2;
 			editor.windowRect.yMax = MainButtonWorker_ToggleAlertsWindow.window.windowRect.yMin;
 		}
