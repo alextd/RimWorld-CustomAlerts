@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	
+	<TD.OverwriteAlert>Overwrite Alert?</TD.OverwriteAlert>
+	<TD.CustomAlerts>Custom Alerts:</TD.CustomAlerts>
+	<TD.CriticalAlert>Critical Alert</TD.CriticalAlert>
+	<TD.SecondsUntilShown>Seconds until shown:</TD.SecondsUntilShown>
+	<TD.Tip1000SecondsInARimworldDay>1000 seconds in a RimWorld day</TD.Tip1000SecondsInARimworldDay>
+	<TD.ShowWhen>Show when</TD.ShowWhen>
+	<TD.Maximum0Displayed>(Maximum {0} displayed)</TD.Maximum0Displayed>
+	<TD.ClickToOpen>(Right-click to open search)</TD.ClickToOpen>
+	<TD.EnableAlerts>Enable Alerts</TD.EnableAlerts>
+	
+</LanguageData>

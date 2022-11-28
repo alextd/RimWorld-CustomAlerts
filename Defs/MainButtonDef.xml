@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  
+  <MainButtonDef>
+    <defName>TD_CustomAlerts</defName>
+    <label>Custom Alerts</label>
+    <description>Manage Custom Alerts.</description>
+		<workerClass>Custom_Alerts.MainButtonWorker_ToggleAlertsWindow</workerClass>
+    <!--<tabWindowClass>MainTabWindow_Architect</tabWindowClass>-->
+    <order>200</order>
+    <!--<defaultHotKey>F9</defaultHotKey>-->
+    <validWithoutMap>true</validWithoutMap>
+    <minimized>True</minimized>
+    <iconPath>UI/Letters/LetterUnopened</iconPath>
+  </MainButtonDef>
+
+</Defs>

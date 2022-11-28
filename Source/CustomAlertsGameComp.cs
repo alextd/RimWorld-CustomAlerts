@@ -31,24 +31,24 @@ namespace Custom_Alerts
 			}
 		}
 
-		public QuerySearchAlert GetSavedAlert(string name) => alerts.First(sa => name == sa.name);
-		public bool HasSavedAlert(string name) => alerts.Any(sa => name == sa.name);
+		public QuerySearchAlert GetSavedAlert(string name) => alerts.First(sa => name == sa.search.name);
+		public bool HasSavedAlert(string name) => alerts.Any(sa => name == sa.search.name);
+
+		public void AddAlert(QuerySearch search) => AddAlert(new QuerySearchAlert(search));
 
 
-		public void AddAlert(QuerySearch search)
-		{
-			QuerySearchAlert newSearchAlert = new(search);
-
-			if (HasSavedAlert(newSearchAlert.name))
+		public void AddAlert(QuerySearchAlert newSearchAlert)
+		{ 
+			if (HasSavedAlert(newSearchAlert.search.name))
 			{
-				Find.WindowStack.Add(new Dialog_Name(newSearchAlert.name, 
+				Find.WindowStack.Add(new Dialog_Name(newSearchAlert.search.name,
 					name =>
 					{
-						newSearchAlert.Rename(name);
+						newSearchAlert.search.name = name;
 						LiveAlerts.AddAlert(newSearchAlert);
 						alerts.Add(newSearchAlert);
 					},
-					rejector: name => alerts.Any(sa => sa.name == name)));
+					rejector: name => alerts.Any(sa => sa.search.name == name)));
 			}
 			else
 			{
@@ -57,11 +57,26 @@ namespace Custom_Alerts
 			}
 		}
 
+
+		public void AddAlerts(SearchGroup searches)
+		{
+			foreach (QuerySearch search in searches)
+			{
+				QuerySearchAlert newSearchAlert = new(search);
+
+				if (HasSavedAlert(newSearchAlert.search.name))
+					newSearchAlert.search.name += "TD.CopyNameSuffix".Translate();
+
+				LiveAlerts.AddAlert(newSearchAlert);
+				alerts.Add(newSearchAlert);
+			}
+		}
+
 		public void RenameAlert(QuerySearchAlert searchAlert)
 		{
-			Find.WindowStack.Add(new Dialog_Name(searchAlert.name,
-				name => searchAlert.Rename(name),
-				rejector: name => alerts.Any(sa => sa.name == name)));
+			Find.WindowStack.Add(new Dialog_Name(searchAlert.search.name,
+				name => searchAlert.search.name = name,
+				rejector: name => alerts.Any(sa => sa.search.name == name)));
 		}
 
 		public void RemoveAlert(QuerySearchAlert searchAlert)
@@ -69,21 +84,5 @@ namespace Custom_Alerts
 			alerts.Remove(searchAlert);
 			LiveAlerts.RemoveAlert(searchAlert);
 		}
-	}
-
-	[StaticConstructorOnStartup]
-	public class SearchAlertTransfer : ISearchReceiver
-	{
-		static SearchAlertTransfer()
-		{
-			SearchTransfer.Register(new SearchAlertTransfer());
-		}
-		
-		public string Source => "Custom Alert";
-		public string ReceiveName => "Make Custom Alert";
-		public QuerySearch.CloneArgs CloneArgs => QuerySearch.CloneArgs.use;
-
-		public bool CanReceive() => Current.Game?.GetComponent<CustomAlertsGameComp>() != null;
-		public void Receive(QuerySearch search) => Current.Game.GetComponent<CustomAlertsGameComp>().AddAlert(search);
 	}
 }

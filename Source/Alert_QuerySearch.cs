@@ -9,44 +9,31 @@ using TD_Find_Lib;
 
 namespace Custom_Alerts
 {
-	public class QuerySearchAlert : QuerySearch
+	public class QuerySearchAlert: IExposable
 	{
+		public QuerySearch search;
 		public Alert_QuerySearch alert;
 
-		public QuerySearchAlert() : base()
+		//For ExposeData
+		private QuerySearchAlert() : base()
 		{
 			alert = new Alert_QuerySearch(this);
 		}
 
-		public QuerySearchAlert(QuerySearch search) : base()
+		public QuerySearchAlert(QuerySearch search, bool enabled = true) : base()
 		{
-			name = search.name;
-			parameters = search.parameters.Clone();
-			active = true;
-
-			// If you loaded from a search that chose the map, but didn't choose, I guess we'll choose for you.
-			if (parameters.mapType == SearchMapType.ChosenMaps && parameters.searchMaps.Count == 0)
-				SetSearchMap(Find.CurrentMap, false);
-
-			children = search.Children.Clone(this);
+			this.search = search;
+			this.search.active = true;
 
 			alert = new (this);
-			alert.defaultLabel = name;
+			alert.enabled = enabled;
 		}
 
-		public override void ExposeData()
+		public void ExposeData()
 		{
-			base.ExposeData();
-			if (Scribe.mode == LoadSaveMode.LoadingVars)
-				alert.defaultLabel = name;
+			Scribe_Deep.Look(ref search, "search");
 
 			alert.ExposeData();
-		}
-
-		public void Rename(string newName)
-		{
-			name = newName;
-			alert.defaultLabel = newName;
 		}
 		public void SetPriority(AlertPriority p)
 		{
@@ -60,6 +47,7 @@ namespace Custom_Alerts
 	{
 		public QuerySearchAlert searchAlert;
 
+		public bool enabled = true;
 		public int secondsBeforeAlert;
 		public int countToAlert;
 		public CompareType compareType;
@@ -85,6 +73,7 @@ namespace Custom_Alerts
 			Scribe_Values.Look(ref secondsBeforeAlert, "ticksToShowAlert");
 			Scribe_Values.Look(ref countToAlert, "countToAlert");
 			Scribe_Values.Look(ref compareType, "countComp");
+			Scribe_Values.Look(ref enabled, "enabled");
 		}
 		
 		//protected but using publicized assembly
@@ -98,10 +87,12 @@ namespace Custom_Alerts
 				return new Color(i, i, i) * Color.red;
 			}
 		}
-		
+
+		public override string GetLabel() => searchAlert.search.name;
+
 		public override AlertReport GetReport()
 		{
-			if (searchAlert == null || !enableAll)	//Alert_Find auto-added as an Alert subclass, exists but never displays anything
+			if (!enabled || searchAlert == null || !enableAll)	//Alert_Find auto-added as an Alert subclass, exists but never displays anything
 				return AlertReport.Inactive;
 
 			var things = FoundThings();
@@ -129,7 +120,7 @@ namespace Custom_Alerts
 		{
 			var things = FoundThings();
 			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.Append(defaultLabel + searchAlert.GetMapNameSuffix());
+			stringBuilder.Append(GetLabel() + searchAlert.search.GetMapNameSuffix());
 			stringBuilder.AppendLine(" - " + ThingListDrawer.LabelCountThings(things));
 			stringBuilder.AppendLine("");
 			foreach (Thing thing in things.Take(maxItems))
@@ -137,23 +128,23 @@ namespace Custom_Alerts
 			if (things.Count() > maxItems)
 				stringBuilder.AppendLine("TD.Maximum0Displayed".Translate(maxItems));
 			stringBuilder.AppendLine("");
-			stringBuilder.AppendLine("TD.Right-clickToOpenFindTab".Translate());
+			stringBuilder.AppendLine("TD.ClickToOpen".Translate());
 
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
-		int currentTick;
+		int lastRemadeTick;
 		private IEnumerable<Thing> FoundThings()
 		{
-			if (Find.TickManager.TicksGame == currentTick)
-				return searchAlert.result.allThings;
+			if (Find.TickManager.TicksGame == lastRemadeTick)
+				return searchAlert.search.result.allThings;
 
-			currentTick = Find.TickManager.TicksGame;
+			lastRemadeTick = Find.TickManager.TicksGame;
 
-			searchAlert.RemakeList();
+			searchAlert.search.RemakeList();
 
 
-			return searchAlert.result.allThings;
+			return searchAlert.search.result.allThings;
 		}
 
 		public override Rect DrawAt(float topY, bool minimized)
@@ -166,7 +157,7 @@ namespace Custom_Alerts
 			//rect.x -= this.alertBounce.CalculateHorizontalOffset();
 			if (Event.current.button == 1 && Widgets.ButtonInvisible(rect, false))
 			{
-				SearchStorage.ChooseExportSearch(searchAlert, "Custom Alert");
+				SearchStorage.ChooseExportSearch(searchAlert.search, "Custom Alert");
 
 				Event.current.Use();
 			}
