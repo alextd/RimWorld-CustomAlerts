@@ -15,7 +15,7 @@ namespace Custom_Alerts
 		public Alert_QuerySearch alert;
 
 		//For ExposeData
-		private QuerySearchAlert() : base()
+		public QuerySearchAlert() : base()
 		{
 			alert = new Alert_QuerySearch(this);
 		}
