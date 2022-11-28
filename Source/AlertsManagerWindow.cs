@@ -159,7 +159,7 @@ namespace Custom_Alerts
 			row.Checkbox(ref searchAlert.alert.enabled);
 
 			//Show when (backwards right to left O_o)
-			Rect textRect = row.GetRect(30); textRect.height -= 4; textRect.width -= 4;
+			Rect textRect = row.GetRect(36); textRect.height -= 4; textRect.width -= 4;
 			string dummyStr = null;
 			Widgets.TextFieldNumeric(textRect, ref searchAlert.alert.countToAlert, ref dummyStr, 0, 999999);
 			if (row.ButtonIcon(TexFor(searchAlert.alert.compareType)))
@@ -168,7 +168,7 @@ namespace Custom_Alerts
 
 
 			//Seconds until
-			textRect = row.GetRect(30); textRect.height -= 4; textRect.width -= 4;
+			textRect = row.GetRect(36); textRect.height -= 4; textRect.width -= 4;
 			dummyStr = null;
 			Widgets.TextFieldNumeric(textRect, ref searchAlert.alert.secondsBeforeAlert, ref dummyStr, 0, 999999);
 			TooltipHandler.TipRegion(textRect, "TD.Tip1000SecondsInARimworldDay".Translate());
