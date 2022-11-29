@@ -82,14 +82,9 @@ namespace Custom_Alerts
 			if (addRow.ButtonIcon(FindTex.GreyPlus))
 				PopUpCreateAlert();
 
-			if (addRow.ButtonIcon(FindTex.Import))
-			{
+			SearchStorage.ButtonChooseImportSearch(addRow, comp.AddAlert, SearchAlertTransfer.TransferTag, QuerySearch.CloneArgs.use);
 
-			}
-			if (addRow.ButtonIcon(FindTex.ImportGroup))
-			{
-
-			}
+			SearchStorage.ButtonChooseImportSearchGroup(addRow, comp.AddAlerts, SearchAlertTransfer.TransferTag, QuerySearch.CloneArgs.use);
 
 			listing.EndScrollView(ref scrollViewHeight);
 		}
