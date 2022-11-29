@@ -152,16 +152,24 @@ namespace Custom_Alerts
 		{
 			if (Event.current.button == 1)
 			{
-				SearchStorage.ChooseExportSearch(searchAlert.search, SearchAlertTransfer.TransferTag);
+				List<FloatMenuOption> options = SearchStorage.ExportSearchOptions(searchAlert.search, SearchAlertTransfer.TransferTag);
+
+				options.Add(new FloatMenuOption("Open Manager", () => MainButtonWorker_ToggleAlertsWindow.Open()));
+				options.Add(new FloatMenuOption("Inspect", () => Inspect(searchAlert)));
+
+				Find.WindowStack.Add(new FloatMenu(options));
 			}
-			else if(Event.current.shift)
-			{
-				MainButtonWorker_ToggleAlertsWindow.Open();
-				AlertsManagerWindow.PopUpEditor(searchAlert);
-				Find.WindowStack.Add(new ResultThingListWindow(searchAlert.search));
-			}
+			else if (Event.current.shift)
+				Inspect(searchAlert);
 			else
 				base.OnClick();
+		}
+
+		public static void Inspect(QuerySearchAlert searchAlert)
+		{
+			MainButtonWorker_ToggleAlertsWindow.Open();
+			AlertsManagerWindow.PopUpEditor(searchAlert);
+			Find.WindowStack.Add(new ResultThingListWindow(searchAlert.search));
 		}
 	}
 }

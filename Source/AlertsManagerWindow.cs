@@ -195,6 +195,7 @@ namespace Custom_Alerts
 	public class MainButtonWorker_ToggleAlertsWindow : MainButtonWorker
 	{
 		public static AlertsManagerWindow window = new AlertsManagerWindow();
+
 		public static void OpenWith(SearchGroup searches)
 		{
 			Open();
