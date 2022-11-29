@@ -38,8 +38,7 @@ namespace Custom_Alerts
 			base.PreOpen();
 			comp = Current.Game.GetComponent<CustomAlertsGameComp>();
 
-			if(alertsDrawer == null)
-				alertsDrawer = new(comp.alerts);
+			alertsDrawer = new(comp.alerts, this);
 		}
 
 
@@ -103,7 +102,7 @@ namespace Custom_Alerts
 			name => comp.HasSavedAlert(name)));
 		}
 
-		public static void PopUpEditor(QuerySearchAlert searchAlert)
+		public void PopUpEditor(QuerySearchAlert searchAlert)
 		{
 			var editor = new SearchEditorWindow(searchAlert.search, SearchAlertTransfer.TransferTag, _ =>
 			{
@@ -115,23 +114,27 @@ namespace Custom_Alerts
 
 			Find.WindowStack.Add(editor);
 			editor.windowRect.x = Window.StandardMargin;
-			editor.windowRect.y = MainButtonWorker_ToggleAlertsWindow.window.windowRect.yMin / 3;
-			editor.windowRect.yMax = MainButtonWorker_ToggleAlertsWindow.window.windowRect.yMin;
+			editor.windowRect.y = windowRect.yMin / 3;
+			editor.windowRect.yMax = windowRect.yMin;
 		}
 	}
 
 	public class SearchAlertListDrawer : SearchGroupDrawerBase<SearchAlertGroup, QuerySearchAlert>
 	{
 		CustomAlertsGameComp comp = Current.Game.GetComponent<CustomAlertsGameComp>();
-		public SearchAlertListDrawer(SearchAlertGroup list) : base(list) { }
+		AlertsManagerWindow parent;
 
+		public SearchAlertListDrawer(SearchAlertGroup list, AlertsManagerWindow window) : base(list)
+		{
+			parent = window;
+		}
 
 		public override string Name => "TD.ActiveSearches".Translate();
 
 		public override void DrawRowButtons(WidgetRow row, QuerySearchAlert searchAlert, int i)
 		{
 			if (row.ButtonIcon(FindTex.Edit, "TD.EditThisSearch".Translate()))
-				AlertsManagerWindow.PopUpEditor(searchAlert);
+				parent.PopUpEditor(searchAlert);
 
 			if (row.ButtonIcon(TexButton.Rename))
 				comp.RenameAlert(searchAlert);
@@ -189,8 +192,6 @@ namespace Custom_Alerts
 
 	public class MainButtonWorker_ToggleAlertsWindow : MainButtonWorker
 	{
-		public static AlertsManagerWindow window = new AlertsManagerWindow();
-
 		public static void OpenWith(SearchGroup searches)
 		{
 			Open();
@@ -204,19 +205,26 @@ namespace Custom_Alerts
 
 			Current.Game.GetComponent<CustomAlertsGameComp>().AddAlert(search);
 		}
-		public static void Open()
+		public static AlertsManagerWindow Open()
 		{
-			if (!Find.WindowStack.IsOpen(window))
-				Find.WindowStack.Add(window);
+			if (Find.WindowStack.WindowOfType<AlertsManagerWindow>() is AlertsManagerWindow w)
+			{
+				Find.WindowStack.Notify_ClickedInsideWindow(w);
+				return w;
+			}
 			else
-				Find.WindowStack.Notify_ClickedInsideWindow(window);
+			{
+				AlertsManagerWindow window = new AlertsManagerWindow();
+				Find.WindowStack.Add(window);
+				return window;
+			}
 		}
 		public static void Toggle()
 		{
-			if (Find.WindowStack.IsOpen(window))
-				window.Close();
+			if (Find.WindowStack.WindowOfType<AlertsManagerWindow>() is AlertsManagerWindow w)
+				w.Close();
 			else
-				Find.WindowStack.Add(window);
+				Open();
 		}
 
 		public override void Activate()

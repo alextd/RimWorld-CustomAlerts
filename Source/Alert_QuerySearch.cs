@@ -167,8 +167,7 @@ namespace Custom_Alerts
 
 		public static void Inspect(QuerySearchAlert searchAlert)
 		{
-			MainButtonWorker_ToggleAlertsWindow.Open();
-			AlertsManagerWindow.PopUpEditor(searchAlert);
+			MainButtonWorker_ToggleAlertsWindow.Open().PopUpEditor(searchAlert);
 			Find.WindowStack.Add(new ResultThingListWindow(searchAlert.search));
 		}
 	}
