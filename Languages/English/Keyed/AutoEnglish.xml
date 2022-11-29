@@ -8,7 +8,7 @@
 	<TD.Tip1000SecondsInARimworldDay>1000 seconds in a RimWorld day</TD.Tip1000SecondsInARimworldDay>
 	<TD.ShowWhen>Show when</TD.ShowWhen>
 	<TD.Maximum0Displayed>(Maximum {0} displayed)</TD.Maximum0Displayed>
-	<TD.ClickToOpen>(Right-click to open search)</TD.ClickToOpen>
+	<TD.ClickToOpen>Shift-click to inspect\nRight-click to export</TD.ClickToOpen>
 	<TD.EnableAlerts>Enable Alerts</TD.EnableAlerts>
 	
 </LanguageData>

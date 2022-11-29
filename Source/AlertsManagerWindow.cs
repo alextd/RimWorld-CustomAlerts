@@ -150,7 +150,7 @@ namespace Custom_Alerts
 						"TD.Delete0".Translate(searchAlert.search.name), () => comp.RemoveAlert(searchAlert), true));
 			}
 
-			SearchStorage.ButtonChooseExportSearch(row, searchAlert.search, "Custom Alert");
+			SearchStorage.ButtonChooseExportSearch(row, searchAlert.search, SearchAlertTransfer.TransferTag);
 		}
 
 		public override void DrawExtraRowRect(Rect rowRect, QuerySearchAlert searchAlert, int i)

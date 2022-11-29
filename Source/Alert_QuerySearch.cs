@@ -148,21 +148,20 @@ namespace Custom_Alerts
 			return searchAlert.search.result.allThings;
 		}
 
-		public override Rect DrawAt(float topY, bool minimized)
+		public override void OnClick()
 		{
-			Text.Font = GameFont.Small;
-			string label = GetLabel();
-			float height = Text.CalcHeight(label, Alert.Width - 6); //Alert.TextWidth = 148f
-			Rect rect = new Rect((float)UI.screenWidth - Alert.Width, topY, Alert.Width, height);
-			//if (this.alertBounce != null)
-			//rect.x -= this.alertBounce.CalculateHorizontalOffset();
-			if (Event.current.button == 1 && Widgets.ButtonInvisible(rect, false))
+			if (Event.current.button == 1)
 			{
-				SearchStorage.ChooseExportSearch(searchAlert.search, "Custom Alert");
-
-				Event.current.Use();
+				SearchStorage.ChooseExportSearch(searchAlert.search, SearchAlertTransfer.TransferTag);
 			}
-			return base.DrawAt(topY, minimized);
+			else if(Event.current.shift)
+			{
+				MainButtonWorker_ToggleAlertsWindow.Open();
+				AlertsManagerWindow.PopUpEditor(searchAlert);
+				Find.WindowStack.Add(new ResultThingListWindow(searchAlert.search));
+			}
+			else
+				base.OnClick();
 		}
 	}
 }
