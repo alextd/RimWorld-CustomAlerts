@@ -11,7 +11,7 @@
     <!--<defaultHotKey>F9</defaultHotKey>-->
     <validWithoutMap>true</validWithoutMap>
     <minimized>True</minimized>
-    <iconPath>UI/Letters/LetterUnopened</iconPath>
+    <iconPath>AlertTab</iconPath>
   </MainButtonDef>
 
 </Defs>
