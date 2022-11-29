@@ -13,7 +13,7 @@ namespace Custom_Alerts
 	{
 		SearchAlertListDrawer alertsDrawer;
 		CustomAlertsGameComp comp;
-		public override Vector2 InitialSize => new Vector2(750f, 500f);
+		public override Vector2 InitialSize => new Vector2(850, 500f);
 
 		//protected but using publicized assembly
 		//protected override void SetInitialSizeAndPosition()
