@@ -9,9 +9,10 @@ using TD_Find_Lib;
 
 namespace Custom_Alerts
 {
-	public class QuerySearchAlert: IExposable
+	public class QuerySearchAlert: IExposable, IQuerySearch
 	{
 		public QuerySearch search;
+		public QuerySearch Search => search;
 		public Alert_QuerySearch alert;
 
 		//For ExposeData

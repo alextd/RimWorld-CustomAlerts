@@ -14,13 +14,13 @@ namespace Custom_Alerts
 	// Alert_Find have to be inserted into the game's AllAlerts
 	class CustomAlertsGameComp : GameComponent
 	{
-		public List<QuerySearchAlert> alerts = new();
+		public SearchAlertGroup alerts = new();
 
 		public CustomAlertsGameComp(Game g):base() { }
 
 		public override void ExposeData()
 		{
-			Scribe_Collections.Look(ref alerts, "alerts");
+			Scribe_Deep.Look(ref alerts, "alerts");
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
 				if (alerts == null)
@@ -31,32 +31,14 @@ namespace Custom_Alerts
 			}
 		}
 
-		public QuerySearchAlert GetSavedAlert(string name) => alerts.First(sa => name == sa.search.name);
-		public bool HasSavedAlert(string name) => alerts.Any(sa => name == sa.search.name);
+		public bool HasSavedAlert(string name) =>
+			alerts.Any(sa => name == sa.search.name);
 
-		public void AddAlert(QuerySearch search) => AddAlert(new QuerySearchAlert(search));
-
+		public void AddAlert(QuerySearch search) =>
+			AddAlert(new QuerySearchAlert(search));
 
 		public void AddAlert(QuerySearchAlert newSearchAlert)
-		{ 
-			if (HasSavedAlert(newSearchAlert.search.name))
-			{
-				Find.WindowStack.Add(new Dialog_Name(newSearchAlert.search.name,
-					name =>
-					{
-						newSearchAlert.search.name = name;
-						LiveAlerts.AddAlert(newSearchAlert);
-						alerts.Add(newSearchAlert);
-					},
-					rejector: name => alerts.Any(sa => sa.search.name == name)));
-			}
-			else
-			{
-				LiveAlerts.AddAlert(newSearchAlert);
-				alerts.Add(newSearchAlert);
-			}
-		}
-
+			=> alerts.TryAdd(newSearchAlert);
 
 		public void AddAlerts(SearchGroup searches)
 		{
@@ -83,6 +65,28 @@ namespace Custom_Alerts
 		{
 			alerts.Remove(searchAlert);
 			LiveAlerts.RemoveAlert(searchAlert);
+		}
+	}
+
+	public class SearchAlertGroup : SearchGroupBase<QuerySearchAlert>
+	{
+		public override void Replace(QuerySearchAlert newSearchAlert, int i)
+		{
+			LiveAlerts.RemoveAlert(this[i]);
+			base.Replace(newSearchAlert, i);
+			LiveAlerts.AddAlert(newSearchAlert);
+		}
+
+		public override void Copy(QuerySearchAlert newSearchAlert, int i)
+		{
+			base.Copy(newSearchAlert, i);
+			LiveAlerts.AddAlert(newSearchAlert);
+		}
+
+		public override void DoAdd(QuerySearchAlert newSearchAlert)
+		{
+			base.DoAdd(newSearchAlert);
+			LiveAlerts.AddAlert(newSearchAlert);
 		}
 	}
 }

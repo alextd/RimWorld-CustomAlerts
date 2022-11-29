@@ -125,15 +125,13 @@ namespace Custom_Alerts
 		}
 	}
 
-	public class SearchAlertListDrawer : SearchListDrawer<List<QuerySearchAlert>, QuerySearchAlert>
+	public class SearchAlertListDrawer : SearchGroupDrawerBase<SearchAlertGroup, QuerySearchAlert>
 	{
 		CustomAlertsGameComp comp = Current.Game.GetComponent<CustomAlertsGameComp>();
-		public SearchAlertListDrawer(List<QuerySearchAlert> list) : base(list) { }
+		public SearchAlertListDrawer(SearchAlertGroup list) : base(list) { }
 
 
 		public override string Name => "TD.ActiveSearches".Translate();
-		public override QuerySearch SearchAt(int i) => list[i].search;
-		public override int Count => list.Count;
 
 		public override void DrawRowButtons(WidgetRow row, QuerySearchAlert searchAlert, int i)
 		{
