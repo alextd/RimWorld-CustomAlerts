@@ -90,7 +90,7 @@ namespace Custom_Alerts
 
 		public void PopUpCreateAlert()
 		{
-			Find.WindowStack.Add(new Dialog_Name("New Alert", n =>
+			Find.WindowStack.Add(new Dialog_Name("TD.NewAlert".Translate(), n =>
 			{
 				QuerySearch search = new () { name = n };
 				QuerySearchAlert searchAlert = new(search, false);
@@ -98,7 +98,7 @@ namespace Custom_Alerts
 
 				PopUpEditor(searchAlert);
 			},
-			"Name for New Alert",
+			"TD.NameForNewAlert".Translate(),
 			name => comp.HasSavedAlert(name)));
 		}
 
@@ -109,7 +109,7 @@ namespace Custom_Alerts
 				if (!searchAlert.alert.enabled)
 
 					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
-						"Start Alert?", () => searchAlert.alert.enabled = true));
+						"TD.StartAlert".Translate(), () => searchAlert.alert.enabled = true));
 			});
 
 			Find.WindowStack.Add(editor);
@@ -241,9 +241,9 @@ namespace Custom_Alerts
 			SearchTransfer.Register(new SearchAlertTransfer());
 		}
 
-		public static string TransferTag = "Custom Alert";
+		public static string TransferTag = "Custom Alert";//notranslate
 		public string Source => TransferTag;
-		public string ReceiveName => "Make Custom Alert";
+		public string ReceiveName => "TD.MakeCustomAlert".Translate();
 		public QuerySearch.CloneArgs CloneArgs => QuerySearch.CloneArgs.use;
 
 		public bool CanReceive() => Current.Game?.GetComponent<CustomAlertsGameComp>() != null;

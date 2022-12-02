@@ -154,8 +154,8 @@ namespace Custom_Alerts
 			{
 				List<FloatMenuOption> options = SearchStorage.ExportSearchOptions(searchAlert.search, SearchAlertTransfer.TransferTag);
 
-				options.Add(new FloatMenuOption("Open Manager", () => MainButtonWorker_ToggleAlertsWindow.Open()));
-				options.Add(new FloatMenuOption("Inspect", () => Inspect(searchAlert)));
+				options.Add(new FloatMenuOption("TD.OpenManager".Translate(), () => MainButtonWorker_ToggleAlertsWindow.Open()));
+				options.Add(new FloatMenuOption("TD.Inspect".Translate(), () => Inspect(searchAlert)));
 
 				Find.WindowStack.Add(new FloatMenu(options));
 			}

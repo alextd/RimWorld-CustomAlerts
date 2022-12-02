@@ -10,5 +10,11 @@
 	<TD.Maximum0Displayed>(Maximum {0} displayed)</TD.Maximum0Displayed>
 	<TD.ClickToOpen>Shift-click to inspect\nRight-click to export</TD.ClickToOpen>
 	<TD.EnableAlerts>Enable Alerts</TD.EnableAlerts>
+	<TD.StartAlert>Start Alert?</TD.StartAlert>
+	<TD.MakeCustomAlert>Make Custom Alert</TD.MakeCustomAlert>
+	<TD.OpenManager>Open Manager</TD.OpenManager>
+	<TD.Inspect>Inspect</TD.Inspect>
+	<TD.NewAlert>New Alert</TD.NewAlert>
+	<TD.NameForNewAlert>Name for New Alert</TD.NameForNewAlert>
 	
 </LanguageData>
