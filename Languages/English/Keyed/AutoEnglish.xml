@@ -2,7 +2,7 @@
 <LanguageData>
 	
 	<TD.OverwriteAlert>Overwrite Alert?</TD.OverwriteAlert>
-	<TD.CustomAlerts>Custom Alerts:</TD.CustomAlerts>
+	<TD.CustomAlerts>Custom Alerts</TD.CustomAlerts>
 	<TD.CriticalAlert>Critical Alert</TD.CriticalAlert>
 	<TD.SecondsUntilShown>Seconds until shown:</TD.SecondsUntilShown>
 	<TD.Tip1000SecondsInARimworldDay>1000 seconds in a RimWorld day</TD.Tip1000SecondsInARimworldDay>

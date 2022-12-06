@@ -44,12 +44,13 @@ namespace Custom_Alerts
 
 		private Vector2 scrollPosition = Vector2.zero;
 		private float scrollViewHeight;
+		private string title = "TD.CustomAlerts".Translate() + ":";
 		public override void DoWindowContents(Rect inRect)
 		{
 			//Title
 			Text.Font = GameFont.Medium;
 			Rect titleRect = inRect.TopPartPixels(Text.LineHeight).AtZero();
-			Widgets.Label(titleRect, "TD.CustomAlerts".Translate());
+			Widgets.Label(titleRect, title);
 			Text.Font = GameFont.Small;
 
 			//Open Library
@@ -84,6 +85,8 @@ namespace Custom_Alerts
 			SearchStorage.ButtonChooseImportSearch(addRow, comp.AddAlert, SearchAlertTransfer.TransferTag, QuerySearch.CloneArgs.use);
 
 			SearchStorage.ButtonChooseImportSearchGroup(addRow, comp.AddAlerts, SearchAlertTransfer.TransferTag, QuerySearch.CloneArgs.use);
+
+			SearchStorage.ButtonChooseExportSearchGroup(addRow, comp.alerts.AsSearchGroup(), SearchAlertTransfer.TransferTag);
 
 			listing.EndScrollView(ref scrollViewHeight);
 		}

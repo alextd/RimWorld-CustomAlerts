@@ -88,5 +88,12 @@ namespace Custom_Alerts
 			base.DoAdd(newSearchAlert);
 			LiveAlerts.AddAlert(newSearchAlert);
 		}
+
+		public SearchGroup AsSearchGroup()
+		{
+			SearchGroup clone = new("TD.CustomAlerts".Translate(), null);
+			clone.AddRange(this.Select(sa => sa.Search));
+			return clone;
+		}
 	}
 }
