@@ -58,6 +58,8 @@ namespace Custom_Alerts
 
 		public static bool enableAll = true;
 
+		public static readonly string transferTags = SearchAlertTransfer.TransferTag + "," + TD_Find_Lib.Settings.StorageTransferTag;
+
 		public Alert_QuerySearch()
 		{
 			//The vanilla alert added to AllAlerts will be constructed but never be active with null filter
@@ -152,7 +154,7 @@ namespace Custom_Alerts
 		{
 			if (Event.current.button == 1)
 			{
-				List<FloatMenuOption> options = SearchStorage.ExportSearchOptions(searchAlert.search, SearchAlertTransfer.TransferTag);
+				List<FloatMenuOption> options = SearchStorage.ExportSearchOptions(searchAlert.search, transferTags);
 
 				options.Add(new FloatMenuOption("TD.OpenManager".Translate(), () => MainButtonWorker_ToggleAlertsWindow.Open()));
 				options.Add(new FloatMenuOption("TD.Inspect".Translate(), () => Inspect(searchAlert)));
