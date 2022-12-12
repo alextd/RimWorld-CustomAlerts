@@ -53,7 +53,7 @@ namespace Custom_Alerts
 		public int countToAlert;
 		public CompareType compareType;
 
-		public int maxItems = 16;
+		const int MaxItems = 16;
 		int lastTickInactive;
 
 		public static bool enableAll = true;
@@ -98,8 +98,8 @@ namespace Custom_Alerts
 			if (!enabled || searchAlert == null || !enableAll)	//Alert_Find auto-added as an Alert subclass, exists but never displays anything
 				return AlertReport.Inactive;
 
-			var things = FoundThings();
-			int count = things.Sum(t => t.stackCount);
+			var result = SearchResult();
+			int count = result.allThingsCount;
 			bool active = compareType switch
 			{
 				CompareType.Greater => count > countToAlert,
@@ -114,22 +114,22 @@ namespace Custom_Alerts
 			{
 				if (count == 0)
 					return AlertReport.Active;
-				return AlertReport.CulpritsAre(things.Take(maxItems).ToList());
+				return AlertReport.CulpritsAre(result.allThings.Take(MaxItems).ToList());
 			}
 			return AlertReport.Inactive;
 		}
 
 		public override TaggedString GetExplanation()
 		{
-			var things = FoundThings();
+			var result = SearchResult();
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.Append(GetLabel() + searchAlert.search.GetMapNameSuffix());
-			stringBuilder.AppendLine(" - " + ThingListDrawer.LabelCountThings(things));
+			stringBuilder.AppendLine(" - " + ThingListDrawer.LabelCountThings(result));
 			stringBuilder.AppendLine("");
-			foreach (Thing thing in things.Take(maxItems))
+			foreach (Thing thing in result.allThings.Take(MaxItems))
 				stringBuilder.AppendLine("   " + thing.Label);
-			if (things.Count() > maxItems)
-				stringBuilder.AppendLine("TD.Maximum0Displayed".Translate(maxItems));
+			if (result.allThings.Count > MaxItems)
+				stringBuilder.AppendLine("TD.Maximum0Displayed".Translate(MaxItems));
 			stringBuilder.AppendLine("");
 			stringBuilder.AppendLine("TD.ClickToOpen".Translate());
 
@@ -137,17 +137,17 @@ namespace Custom_Alerts
 		}
 
 		int lastRemadeTick;
-		private IEnumerable<Thing> FoundThings()
+		private SearchResult SearchResult()
 		{
 			if (Find.TickManager.TicksGame == lastRemadeTick)
-				return searchAlert.search.result.allThings;
+				return searchAlert.search.result;
 
 			lastRemadeTick = Find.TickManager.TicksGame;
 
 			searchAlert.search.RemakeList();
 
 
-			return searchAlert.search.result.allThings;
+			return searchAlert.search.result;
 		}
 
 		public override void OnClick()
