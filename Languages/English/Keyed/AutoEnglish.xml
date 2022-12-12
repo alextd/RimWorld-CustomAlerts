@@ -16,5 +16,6 @@
 	<TD.Inspect>Inspect</TD.Inspect>
 	<TD.NewAlert>New Alert</TD.NewAlert>
 	<TD.NameForNewAlert>Name for New Alert</TD.NameForNewAlert>
+	<TD.EditingAlert>Editing Alert</TD.EditingAlert>
 	
 </LanguageData>

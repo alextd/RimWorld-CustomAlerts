@@ -107,13 +107,7 @@ namespace Custom_Alerts
 
 		public void PopUpEditor(QuerySearchAlert searchAlert)
 		{
-			var editor = new SearchEditorWindow(searchAlert.search, SearchAlertTransfer.TransferTag, _ =>
-			{
-				if (!searchAlert.alert.enabled)
-
-					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
-						"TD.StartAlert".Translate(), () => searchAlert.alert.enabled = true));
-			});
+			var editor = new AlertEditorWindow(searchAlert);
 
 			Find.WindowStack.Add(editor);
 			editor.windowRect.x = Window.StandardMargin;
