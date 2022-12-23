@@ -136,16 +136,9 @@ namespace Custom_Alerts
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
-		int lastRemadeTick;
 		private SearchResult SearchResult()
 		{
-			if (Find.TickManager.TicksGame == lastRemadeTick)
-				return searchAlert.search.result;
-
-			lastRemadeTick = Find.TickManager.TicksGame;
-
 			searchAlert.search.RemakeList();
-
 
 			return searchAlert.search.result;
 		}
