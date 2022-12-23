@@ -96,6 +96,7 @@ namespace Custom_Alerts
 			Find.WindowStack.Add(new Dialog_Name("TD.NewAlert".Translate(), n =>
 			{
 				QuerySearch search = new () { name = n };
+				search.SetSearchAllMaps();
 				QuerySearchAlert searchAlert = new(search, false);
 				comp.AddAlert(searchAlert);
 
