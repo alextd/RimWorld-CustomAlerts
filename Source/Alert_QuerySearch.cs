@@ -91,7 +91,8 @@ namespace Custom_Alerts
 			}
 		}
 
-		public override string GetLabel() => searchAlert.search.name;
+		public bool HasCountInName => searchAlert.search.name.Contains("%n");
+		public override string GetLabel() => searchAlert.search.name.Replace("%n", searchAlert.search.result.allThingsCount.ToString());
 
 		public override AlertReport GetReport()
 		{
@@ -123,14 +124,27 @@ namespace Custom_Alerts
 		{
 			var result = SearchResult();
 			StringBuilder stringBuilder = new StringBuilder();
+
+			//Name
 			stringBuilder.Append(GetLabel() + searchAlert.search.GetMapNameSuffix());
-			stringBuilder.AppendLine(" - " + ThingListDrawer.LabelCountThings(result));
+
+			// - Count
+			if(!HasCountInName)
+				stringBuilder.AppendLine(" - " + ThingListDrawer.LabelCountThings(result));
+			else 
+				stringBuilder.AppendLine("");
+
 			stringBuilder.AppendLine("");
+
+			//Item list
 			foreach (Thing thing in result.allThings.Take(MaxItems))
 				stringBuilder.AppendLine("   " + thing.Label);
+
 			if (result.allThings.Count > MaxItems)
 				stringBuilder.AppendLine("TD.Maximum0Displayed".Translate(MaxItems));
 			stringBuilder.AppendLine("");
+
+			//Help
 			stringBuilder.AppendLine("TD.ClickToOpen".Translate());
 
 			return stringBuilder.ToString().TrimEndNewlines();
