@@ -179,6 +179,9 @@ namespace Custom_Alerts
 			{
 				searchAlert.SetPriority(crit ? AlertPriority.Critical : AlertPriority.Medium);
 			}
+
+			if (searchAlert.alert.Active)
+				Widgets.DrawHighlightSelected(rowRect);
 		}
 
 		public static Texture2D TexFor(CompareType compareType) =>
