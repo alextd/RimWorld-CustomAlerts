@@ -53,9 +53,21 @@ namespace Custom_Alerts
 			Widgets.Label(titleRect, title);
 			Text.Font = GameFont.Small;
 
-			//Open Library
-			Rect libraryRect = inRect.LeftHalf().BottomPartPixels(Text.LineHeight);
-			SearchStorage.ButtonOpenLibrary(libraryRect);
+			// Add alert row
+			Rect addRect = inRect.LeftHalf().BottomPartPixels(Text.LineHeight);
+			WidgetRow addRow = new(addRect.x, addRect.y);
+
+
+			if (addRow.ButtonIcon(FindTex.GreyPlus))
+				PopUpCreateAlert();
+
+			addRow.ButtonChooseImportSearch(comp.AddAlert, SearchAlertTransfer.TransferTag, QuerySearch.CloneArgs.use);
+
+			addRow.ButtonChooseImportSearchGroup(comp.AddAlerts, SearchAlertTransfer.TransferTag, QuerySearch.CloneArgs.use);
+
+			addRow.ButtonChooseExportSearchGroup(comp.alerts.AsSearchGroup(), SearchAlertTransfer.TransferTag);
+
+			addRow.ButtonOpenLibrary();
 
 			//Check off
 			Rect enableRect = inRect.RightHalf().BottomPartPixels(Text.LineHeight);
@@ -72,21 +84,6 @@ namespace Custom_Alerts
 			listing.BeginScrollView(inRect, ref scrollPosition, viewRect);
 
 			alertsDrawer.DrawQuerySearchList(listing);
-
-
-			// Add alert row
-			Rect addRect = listing.GetRect(WidgetRow.IconSize);
-			WidgetRow addRow = new(addRect.x, addRect.y);
-
-
-			if (addRow.ButtonIcon(FindTex.GreyPlus))
-				PopUpCreateAlert();
-
-			SearchStorage.ButtonChooseImportSearch(addRow, comp.AddAlert, SearchAlertTransfer.TransferTag, QuerySearch.CloneArgs.use);
-
-			SearchStorage.ButtonChooseImportSearchGroup(addRow, comp.AddAlerts, SearchAlertTransfer.TransferTag, QuerySearch.CloneArgs.use);
-
-			SearchStorage.ButtonChooseExportSearchGroup(addRow, comp.alerts.AsSearchGroup(), SearchAlertTransfer.TransferTag);
 
 			listing.EndScrollView(ref scrollViewHeight);
 		}
