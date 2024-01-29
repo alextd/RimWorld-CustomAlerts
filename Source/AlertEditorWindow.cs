@@ -22,7 +22,7 @@ namespace Custom_Alerts
 
 		public override void PostClose()
 		{
-			if (search.changed)
+			if (filter.changed)
 			{
 				if (!searchAlert.alert.enabled)
 
