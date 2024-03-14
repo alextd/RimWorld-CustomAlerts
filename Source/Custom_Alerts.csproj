@@ -51,16 +51,13 @@
   <ItemGroup>
     <Compile Include="**\*.cs" Exclude="obj\**\*" />
   </ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Krafs.Publicizer" Version="2.2.1" />
-		<PackageReference Include="Krafs.Rimworld.Ref" Version="1.4.3641" />
-	</ItemGroup>
-	
-	<ItemGroup>
-		<Publicize Include="Assembly-CSharp" />
-	</ItemGroup>
-	
+  <ItemGroup>
+    <PackageReference Include="Krafs.Publicizer" Version="2.2.1" />
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.4034-beta" />
+  </ItemGroup>
+  <ItemGroup>
+    <Publicize Include="Assembly-CSharp" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <StartAction>Program</StartAction>
